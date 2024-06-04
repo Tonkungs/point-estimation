@@ -28,7 +28,10 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
   const [ws, setWs] = useState<WebSocket>();
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8081');
+    // const socket = new WebSocket('ws://localhost:8081');
+    // const socket = new WebSocket('ws://2b43-184-22-32-45.ngrok-free.app');
+    const socket = new WebSocket('ws://quickest-successful-chevre.glitch.me');
+
     setWs(socket);
 
     return () => {
