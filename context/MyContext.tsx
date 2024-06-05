@@ -11,6 +11,7 @@ interface MyContextType {
   setRoom: React.Dispatch<React.SetStateAction<string>>
   ws: WebSocket | undefined
   setWs: React.Dispatch<React.SetStateAction<WebSocket | undefined>>
+  connect: () => void
 }
 
 // สร้าง Context พร้อมกับค่าเริ่มต้น
@@ -27,15 +28,21 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
   const [room, setRoom] = useLocalStorage<string>('server-estimate', JSON.stringify(DEFAULTROOM));
   const [ws, setWs] = useState<WebSocket>();
   const HOST_WS: string = process.env.NEXT_PUBLIC_WEB_SOCKET_HOST as string
-
-  useEffect(() => {
+  function connect() {
     const socket = new WebSocket(HOST_WS);
     // const socket = new WebSocket('wss://quickest-successful-chevre.glitch.me');
 
     setWs(socket);
 
+    socket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  }
+  useEffect(() => {
+    connect()
+    const wsc: WebSocket = ws as WebSocket
     return () => {
-      socket.close();
+      wsc.close();
     };
   }, []);
 
@@ -43,7 +50,8 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
     <MyContext.Provider value={{
       state, setState,
       room, setRoom,
-      ws, setWs
+      ws, setWs,
+      connect
     }}>
       {children}
     </MyContext.Provider>

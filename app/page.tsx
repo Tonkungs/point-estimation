@@ -12,11 +12,12 @@ export default function Home() {
   const [roomName, setRoomName] = useState<string>("room-for-estimate");
   const [userName, setUserName] = useState<string>("");
   const router = useRouter()
-  const { room, setRoom, ws, setWs } = useMyContext();
+  const { room, setRoom, ws, setWs, connect } = useMyContext();
 
   useEffect(() => {
     const roomData: IEstimationPoint = JSON.parse(room)
     setUserName(roomData.Member.UserName)
+    connect()
   }, [])
 
   const onSetRoomName = (e: any) => {

@@ -18,7 +18,7 @@ export default function RoomLayout({ children }: { children: React.ReactNode }) 
           <div className="navbar-start">
           </div>
           <div className="navbar-center">
-            <a className="text-xl">Point estimation</a>
+            <a className="text-xl font-bold">Point estimation</a>
           </div>
           <div className="navbar-end">
             <div className={`tooltip tooltip-left ${tooltip ? "tooltip tooltip-open" : ""}`}

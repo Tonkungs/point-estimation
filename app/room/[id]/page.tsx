@@ -47,9 +47,8 @@ export default function Page({ params }: { params: { id: string } }) {
         setEstimationPoints(dataRoom.Points)
       };
 
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
+
+
       joinRoom()
       return () => {
         socket.close();
@@ -135,7 +134,9 @@ export default function Page({ params }: { params: { id: string } }) {
       <div className="cards flex flex-wrap gap-8 my-3	">
         {ESTIMATION_POINT.map((point) => (
           <CardPoint key={point} point={point} useCard={useCard} setUseCard={selectPoint}
-            estimationPoints={estimationPoints} />
+            estimationPoints={estimationPoints}
+          // isHide={dataEsti.IsHide}
+          />
         ))}
       </div>
       <div className="divider"></div>
@@ -153,10 +154,10 @@ export default function Page({ params }: { params: { id: string } }) {
             Results
           </div>
           <div className="flex-1">
-            <button className="btn btn-error" onClick={deletePoint}>Delete Estimate</button>
+            <button className="btn button-pink" onClick={deletePoint}>Delete Estimate</button>
           </div>
-          <div className="flex-1">
-            <button className="btn btn-success" onClick={setHidePoint}>{dataEsti.IsHide ? "Show Point" : "Hide Point"}</button>
+          <div className="flex-1 flex justify-end">
+            <button className="btn button-mint" onClick={setHidePoint}>{dataEsti.IsHide ? "Show Point" : "Hide Point"}</button>
           </div>
         </div>
       </div>

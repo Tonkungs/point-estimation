@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .bg-cus-cream {
   --tw-bg-opacity: 1;
   background-color: #faedcb;
@@ -9,4 +10,35 @@
   /* background-color: #dbcdf0; */
   /* background-color: #f2c6de; */
   /* background-color: #f7d9c4; */
+}
+
+.border-lime-cus {
+  --tw-border-opacity: 1;
+  border-color: rgb(4, 143, 4);
+}
+
+.button-mint {
+  background-color: #7fff7f;
+  color: rgb(4, 143, 4);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  &:hover {
+    background-color: #bdffbd;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.button-pink {
+  background-color: lightpink;
+  color: #f00303;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  &:hover {
+    background-color: #f7d7d1;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  }
 }
