@@ -31,7 +31,7 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
   function connect() {
     const socket = new WebSocket(HOST_WS);
     // const socket = new WebSocket('wss://quickest-successful-chevre.glitch.me');
-
+    // readmeai --repository ./ --api ollama --model mistral
     setWs(socket);
 
     socket.onclose = () => {
