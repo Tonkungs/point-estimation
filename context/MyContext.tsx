@@ -26,11 +26,11 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
   const [state, setState] = useState<string>("Initial State");
   const [room, setRoom] = useLocalStorage<string>('server-estimate', JSON.stringify(DEFAULTROOM));
   const [ws, setWs] = useState<WebSocket>();
+  const HOST_WS: string = process.env.NEXT_PUBLIC_WEB_SOCKET_HOST as string
 
   useEffect(() => {
-    // const socket = new WebSocket('ws://localhost:8081');
-    // const socket = new WebSocket('ws://2b43-184-22-32-45.ngrok-free.app');
-    const socket = new WebSocket('wss://quickest-successful-chevre.glitch.me');
+    const socket = new WebSocket(HOST_WS);
+    // const socket = new WebSocket('wss://quickest-successful-chevre.glitch.me');
 
     setWs(socket);
 

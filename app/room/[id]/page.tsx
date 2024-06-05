@@ -31,8 +31,6 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const roomData: IEstimationPoint = JSON.parse(room)
-    console.log("roomData", roomData);
-    console.log("ws", ws);
     if (ws) {
 
       const socket: WebSocket = ws as WebSocket
@@ -57,7 +55,7 @@ export default function Page({ params }: { params: { id: string } }) {
         socket.close();
       }
     } else {
-      // router.push(`/`)
+      router.push(`/`)
     }
   }, []);
 

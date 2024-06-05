@@ -11,6 +11,14 @@ const config: Config = {
           md: "768px",
         },
       },
+      colors: {
+        "cus-pastel-pink": "#FAEDCB", // สีชมพูอ่อน
+        "cus-cream-peach": "#C9E4DE", // สีครีมพีช
+        "cus-pastel-blue": "#C6DEF1", // สีฟ้าอ่อน
+        "cus-cream": "#DBCDF0", // สีครีม
+        "cus-peach-pink": "#F2C6DE", // สีชมพูพีช
+        "cus-cream-yellow": "#F7D9C4", // สีครีมเหลือง
+      },
     },
   },
   content: [
