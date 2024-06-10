@@ -6,6 +6,8 @@ import Utils from "@/utils/utils";
 import { useRouter } from 'next/navigation'
 import { useRoomContext } from "@/context/ws";
 import { MyProvider, useMyContext } from "@/context/MyContext";
+import GraphIcon from "./components/GraphIcon";
+import MenuBoard from "./components/MenuBoard";
 
 
 export default function Home() {
@@ -41,6 +43,11 @@ export default function Home() {
     }
   }
 
+  const onBoardJoin = (e: any) => {
+    e.preventDefault()
+    router.push(`/board`)
+  }
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-col">
@@ -68,7 +75,15 @@ export default function Home() {
                 onChange={onSetUserName} />
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary" onClick={onJoinRoom}>Login</button>
+
+              <button className="btn text-white bg-blue-500 rounded hover:bg-blue-600" onClick={onJoinRoom}>
+                <GraphIcon colorClass="text-blue-200" width={24} height={24} />
+                Go to Point Estimation</button>
+              <div className="divider">OR</div>
+              <button className="btn text-white bg-purple-500 rounded hover:bg-purple-600" onClick={onBoardJoin}>
+                <MenuBoard colorClass="text-purple-200" width={24} height={24} />
+                Go to Sprint Retrospective Board
+              </button>
             </div>
           </form>
         </div>
