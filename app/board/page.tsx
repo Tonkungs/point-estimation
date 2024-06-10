@@ -6,11 +6,13 @@ import { CardProps, ColumnProps, EbgColor, ESORTTYPE, ICard } from "./interface"
 import PencilIcon from "./components/Pencil";
 import Utils from "@/utils/utils";
 import ModelConfirm from "./components/ModelConfirm";
-import MinusIcon from "./components/MinusIcon";
+// import MinusIcon from "./components/MinusIcon";
 import ArrowUpIcon from "./components/ArrowUpIcon";
 import ArrowDownIcon from "./components/ArrowDownIcon";
 import ClockIcon from "./components/ClockIcon";
 import RemoveIcon from "./components/RemoveIcon";
+import PlayIcon from "./components/PlayIcon";
+import PauseIcon from "./components/PauseIcon";
 
 const Card: React.FC<CardProps> = ({
   content, bgColor, title, isBlur, isEdit,
@@ -368,11 +370,14 @@ const Board: React.FC = () => {
       <div className="text-center font-bold my-4">
         Sprint Retrospective Board
       </div>
-      <div className="flex">
-        <button type="button" className="btn" onClick={startTime}>เริ่มหยุดการนับเวลา</button>
-        <button type="button" className="btn" onClick={setTextBlur}>ปิด/เปิดข้อความ</button>
-        <button type="button" className="btn" onClick={setEditText}>เริ่ม/หยุดการทำ</button>
-        <button type="button" className="btn" onClick={setPointEsti}>เริ่ม/หยุดการให้คะแนน</button>
+      <div className="flex my-4">
+        <button type="button" className="btn flex-1 bg-blue-400 text-white hover:bg-blue-600" onClick={startTime}>
+          {isTimeRun ? <PauseIcon color="text-blue-200" width={24} height={24} /> : <PlayIcon color="text-blue-200" width={24} height={24} />}
+          เริ่มหยุดการนับเวลา
+        </button>
+        <button type="button" className="btn flex-1 bg-indigo-400 text-white hover:bg-indigo-600" onClick={setTextBlur}>ปิด/เปิดข้อความ</button>
+        <button type="button" className="btn flex-1 bg-green-400 text-white hover:bg-green-600" onClick={setEditText}>เริ่ม/หยุดการทำ</button>
+        <button type="button" className="btn flex-1 bg-orange-400 text-white hover:bg-orange-600" onClick={setPointEsti}>เริ่ม/หยุดการให้คะแนน</button>
       </div>
       <div className="flex">
 
