@@ -13,11 +13,11 @@ export default function RoomLayout({ children }: { children: React.ReactNode }) 
   return (
     <>
       <div className="bg-base-200">
-        <div className="navbar bg-base-100 shadow-lg">
+        <div className="fixed navbar bg-purple-500 shadow-lg z-10">
           <div className="navbar-start">
           </div>
           <div className="navbar-center">
-            <a className="text-xl font-bold">Sprint Retrospective Board</a>
+            <a className="text-xl font-bold text-white">Sprint Retrospective Board</a>
           </div>
           <div className="navbar-end">
             <div className={`tooltip tooltip-left ${tooltip ? "tooltip tooltip-open" : ""}`}
@@ -25,13 +25,12 @@ export default function RoomLayout({ children }: { children: React.ReactNode }) 
               onMouseOver={() => setTooltip(true)}
               onMouseLeave={() => setTooltip(false)}>
               <button className="btn btn-ghost btn-circle" onClick={onSignOff}>
-                <SignOff />
+                <SignOff colorClass="text-purple-200" />
               </button>
             </div>
-
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-16">
           {children}
         </div>
       </div>
