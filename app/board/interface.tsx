@@ -26,6 +26,9 @@ interface CardProps {
   title?: string // pass from parent components
   editCard: (type: EbgColor, card: ICard) => void;
   removeCard: (type: EbgColor, idCard: string) => void
+  isBlur?: boolean
+  isEdit: boolean
+  isPoint: boolean
 }
 
 interface ICard {

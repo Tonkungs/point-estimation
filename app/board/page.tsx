@@ -10,10 +10,11 @@ import MinusIcon from "./components/MinusIcon";
 import ArrowUpIcon from "./components/ArrowUpIcon";
 import ArrowDownIcon from "./components/ArrowDownIcon";
 import ClockIcon from "./components/ClockIcon";
+import RemoveIcon from "./components/RemoveIcon";
 
 const Card: React.FC<CardProps> = ({
-  content, bgColor, title,
-  color, editCard,
+  content, bgColor, title, isBlur, isEdit,
+  isPoint, color, editCard,
   removeCard }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalConfirmOpen, setModalConfirmOpen] = useState(false);
@@ -41,16 +42,16 @@ const Card: React.FC<CardProps> = ({
     purple: 'bg-purple-100 border-purple-200',
   }
 
-  const colorVariantsH: { [key: string]: string } = {
-    green: 'text-green-600',
-    red: 'text-red-600',
-    purple: 'text-purple-600',
-  }
-
-  const colorVariantsText: { [key: string]: string } = {
+  let colorVariantsText: { [key: string]: string } = {
     green: 'text-green-700',
     red: 'text-red-700',
     purple: 'text-purple-700',
+  }
+
+  if (isBlur) {
+    colorVariantsText.green = 'blur-sm select-none ' + colorVariantsText.green
+    colorVariantsText.red = 'blur-sm select-none ' + colorVariantsText.red
+    colorVariantsText.purple = 'blur-sm select-none ' + colorVariantsText.purple
   }
 
   return (
@@ -79,20 +80,30 @@ const Card: React.FC<CardProps> = ({
         content={content.content}
       />
 
-      <p className={colorVariantsText[color]}>
+      <p className={colorVariantsText[color]} >
         {content.content}
       </p>
-      <div className="flex justify-end">
-        <button onClick={() => setModalOpen(true)}>
-          <PencilIcon width={20} height={20} color={color} />
-        </button>
-        <button onClick={() => setModalConfirmOpen(true)}>
-          <MinusIcon width={20} height={20} color={color} />
-        </button>
-        <button onClick={handleModalSubmitLike}>
-          <PlusIcon width={20} height={20} color={color} />
-        </button>
-      </div>
+
+      {
+        isEdit ? <div className="flex justify-end">
+          <button onClick={() => setModalOpen(true)}>
+            <PencilIcon width={20} height={20} color={color} />
+          </button>
+          <button onClick={() => setModalConfirmOpen(true)}>
+            <RemoveIcon width={20} height={20} color={color} />
+            {/* <MinusIcon width={20} height={20} color={color} /> */}
+          </button>
+        </div> : ""
+      }
+
+      {
+        isPoint ? <div className="flex justify-end">
+          <button onClick={handleModalSubmitLike}>
+            <PlusIcon width={20} height={20} color={color} />
+          </button>
+        </div> : ""
+      }
+
     </div>
   );
 };
@@ -254,8 +265,12 @@ const Board: React.FC = () => {
   const [greenCards, setGreenCards] = useState<ICard[]>(greenCards_C);
   const [redCards, setRedCards] = useState<ICard[]>(redCards_C);
   const [purpleCards, setPurpleCards] = useState<ICard[]>(purpleCards_C);
-
-
+  const [time, setTime] = useState<string>("15:00")
+  const [isTimeRun, setIsTimeRun] = useState<boolean>(false)
+  const [timeOutIn, setTimeOutIN] = useState<ReturnType<typeof setTimeout> | null>(null)
+  const [isBlur, setIsBlur] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isPoint, setisPoint] = useState(false);
   const addGreenCard = (card: ICard) => {
     setGreenCards([...greenCards, card])
   }
@@ -301,10 +316,63 @@ const Board: React.FC = () => {
     }
   }
 
-  return (
+  const startTime = () => {
+    if (!isTimeRun) {
+      setIsTimeRun(true)
+      const split = time.split(":")
+      let newTime: number = parseInt(split[0])
+      let newSecond: number = parseInt(split[1])
+
+      setTimeOutIN(setInterval(() => {
+
+        if (newSecond === 0) {
+          newTime = newTime - 1
+          newSecond = 60
+        }
+
+        newSecond = newSecond - 1;
+        let newTimePaddingString = newTime.toString().padStart(2, "0")
+        let newSecondStringPadding = newSecond.toString().padStart(2, "0")
+        setTime(`${newTimePaddingString}:${newSecondStringPadding}`)
+
+
+        if (newTime < 0) {
+          clearInterval(timeOutIn as NodeJS.Timeout)
+          setIsTimeRun(false)
+        }
+
+      }, 1000))
+    } else {
+      clearInterval(timeOutIn as NodeJS.Timeout)
+      setIsTimeRun(false)
+    }
+  }
+
+  const setTextBlur = () => {
+    setIsBlur(!isBlur)
+  }
+
+  const setEditText = () => {
+    setIsEdit(!isEdit)
+  }
+
+  const setPointEsti = () => {
+    setisPoint(!isPoint)
+  }
+
+  return (<div className="flex flex-col">
+    <div className="bg-white px-4 py-8 card shadow-xl">
+      เวลา  {time}
+    </div>
     <div className="bg-white px-4 py-8 card shadow-xl my-4">
       <div className="text-center font-bold my-4">
         Sprint Retrospective Board
+      </div>
+      <div className="flex">
+        <button type="button" className="btn" onClick={startTime}>เริ่มหยุดการนับเวลา</button>
+        <button type="button" className="btn" onClick={setTextBlur}>ปิด/เปิดข้อความ</button>
+        <button type="button" className="btn" onClick={setEditText}>เริ่ม/หยุดการทำ</button>
+        <button type="button" className="btn" onClick={setPointEsti}>เริ่ม/หยุดการให้คะแนน</button>
       </div>
       <div className="flex">
 
@@ -318,8 +386,12 @@ const Board: React.FC = () => {
                   content={item}
                   bgColor={EbgColor.GREEN}
                   color={EbgColor.GREEN}
+                  isBlur={isBlur}
+                  isEdit={isEdit}
+                  isPoint={isPoint}
                   editCard={editCard}
                   removeCard={removeCard}
+
                 />
               )
             })
@@ -335,6 +407,9 @@ const Board: React.FC = () => {
                   content={item}
                   bgColor={EbgColor.RED}
                   color={EbgColor.RED}
+                  isBlur={isBlur}
+                  isEdit={isEdit}
+                  isPoint={isPoint}
                   editCard={editCard}
                   removeCard={removeCard}
                 />
@@ -351,6 +426,9 @@ const Board: React.FC = () => {
                 content={item}
                 bgColor={EbgColor.PURPLE}
                 color={EbgColor.PURPLE}
+                isBlur={isBlur}
+                isEdit={isEdit}
+                isPoint={isPoint}
                 editCard={editCard}
                 removeCard={removeCard}
               />
@@ -359,6 +437,7 @@ const Board: React.FC = () => {
         </Column>
       </div>
     </div>
+  </div>
   );
 };
 
