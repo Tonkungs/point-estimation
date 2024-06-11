@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import SignOff from "../room/[id]/components/sign-off";
+import SignOff from "../../room/[id]/components/sign-off";
 
 export default function RoomLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

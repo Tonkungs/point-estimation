@@ -8,19 +8,20 @@ import { useRoomContext } from "@/context/ws";
 import { MyProvider, useMyContext } from "@/context/MyContext";
 import GraphIcon from "./components/GraphIcon";
 import MenuBoard from "./components/MenuBoard";
+import { IBoard } from "./board/[id]/interface";
 
 
 export default function Home() {
   const [roomName, setRoomName] = useState<string>("room-for-estimate");
-  const [userName, setUserName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("ton");
   const router = useRouter()
-  const { room, setRoom, ws, setWs, connect } = useMyContext();
+  const { room, setRoom, ws, setWs, connect, mainBoard, setMainBoard } = useMyContext();
 
-  useEffect(() => {
-    const roomData: IEstimationPoint = JSON.parse(room)
-    setUserName(roomData.Member.UserName)
-    connect()
-  }, [])
+  // useEffect(() => {
+  //   const roomData: IEstimationPoint = JSON.parse(room)
+  //   setUserName(roomData.Member.UserName)
+  //   connect()
+  // }, [])
 
   const onSetRoomName = (e: any) => {
     setRoomName(e.target.value)
@@ -45,7 +46,12 @@ export default function Home() {
 
   const onBoardJoin = (e: any) => {
     e.preventDefault()
-    router.push(`/board`)
+    const roomData: IBoard = JSON.parse(room)
+    roomData.Member.UserName = userName
+    roomData.Member.ID = Utils.GenUserID();
+    roomData.RoomID = roomName
+    setMainBoard(JSON.stringify(roomData))
+    router.push(`/board/${roomName}`)
   }
 
   return (
