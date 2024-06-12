@@ -48,7 +48,6 @@ export default function Page({ params }: { params: { id: string } }) {
       };
 
 
-
       joinRoom()
       return () => {
         socket.close();
@@ -126,8 +125,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="md:container md:mx-auto bg-white my-5 rounded-lg shadow-lg">
-      {/* <button className="btn btn-primary" onClick={joinRoom}>JOIN</button> */}
+    <div className="max-w-3xl my-5 bg-white p-5 rounded-lg shadow-lg">
       <div className="text-center text-xl font-bold py-5">Room Name:  {params.id}</div>
       <div className="divider"></div>
       <div className="text-sm font-bold py-5">Please select Point Below.</div>
@@ -135,7 +133,6 @@ export default function Page({ params }: { params: { id: string } }) {
         {ESTIMATION_POINT.map((point) => (
           <CardPoint key={point} point={point} useCard={useCard} setUseCard={selectPoint}
             estimationPoints={estimationPoints}
-          // isHide={dataEsti.IsHide}
           />
         ))}
       </div>

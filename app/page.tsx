@@ -6,22 +6,28 @@ import Utils from "@/utils/utils";
 import { useRouter } from 'next/navigation'
 import { useRoomContext } from "@/context/ws";
 import { MyProvider, useMyContext } from "@/context/MyContext";
+import GraphIcon from "./components/GraphIcon";
+import MenuBoard from "./components/MenuBoard";
+import { IBoard } from "./board/[id]/interface";
 
 
 export default function Home() {
   const [roomName, setRoomName] = useState<string>("room-for-estimate");
-  const [userName, setUserName] = useState<string>("");
+  const [boardName, setBoardName] = useState<string>("board-retrospective");
+  const [userName, setUserName] = useState<string>("ton");
   const router = useRouter()
-  const { room, setRoom, ws, setWs, connect } = useMyContext();
+  const { room, setRoom, connect, mainBoard, setMainBoard } = useMyContext();
 
   useEffect(() => {
-    const roomData: IEstimationPoint = JSON.parse(room)
-    setUserName(roomData.Member.UserName)
     connect()
   }, [])
 
   const onSetRoomName = (e: any) => {
     setRoomName(e.target.value)
+  }
+
+  const onSetBoardName = (e: any) => {
+    setBoardName(e.target.value)
   }
 
   const onSetUserName = (e: any) => {
@@ -41,6 +47,18 @@ export default function Home() {
     }
   }
 
+  const onBoardJoin = (e: any) => {
+    e.preventDefault()
+    const roomData: IBoard = JSON.parse(mainBoard)
+    if (roomData.Member.ID === "") {
+      roomData.Member.UserName = userName
+      roomData.Member.ID = Utils.GenUserID();
+    }
+    roomData.RoomID = boardName
+    setMainBoard(JSON.stringify(roomData))
+    router.push(`/board/${boardName}`)
+  }
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-col">
@@ -57,7 +75,7 @@ export default function Home() {
               <input type="text" placeholder="Room ID" className="input input-bordered"
                 value={roomName}
                 disabled
-              // onChange={onSetRoomName} 
+                onChange={onSetRoomName}
               />
               <label className="label">
                 <span className="label-text">Name</span>
@@ -68,8 +86,29 @@ export default function Home() {
                 onChange={onSetUserName} />
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary" onClick={onJoinRoom}>Login</button>
+              <button className="btn text-white bg-blue-500 rounded hover:bg-blue-600" onClick={onJoinRoom}>
+                <GraphIcon colorClass="text-blue-200" width={24} height={24} />
+                Go to Point Estimation</button>
+
             </div>
+            <div className="divider">OR</div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Board ID</span>
+              </label>
+              <input type="text" placeholder="Board ID" className="input input-bordered"
+                value={boardName}
+                disabled
+                onChange={onSetBoardName}
+              />
+            </div>
+            <div className="form-control mt-6">
+              <button className="btn text-white bg-purple-500 rounded hover:bg-purple-600" onClick={onBoardJoin}>
+                <MenuBoard colorClass="text-purple-200" width={24} height={24} />
+                Go to Sprint Retrospective Board
+              </button>
+            </div>
+
           </form>
         </div>
       </div>

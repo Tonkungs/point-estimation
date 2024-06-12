@@ -1,4 +1,5 @@
 "use client"
+import { DEFAULTBOARD } from '@/app/board/[id]/interface';
 import { DEFAULTROOM } from '@/app/room/[id]/interface';
 import useLocalStorage from '@/hook/localstorage';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -9,6 +10,8 @@ interface MyContextType {
   setState: React.Dispatch<React.SetStateAction<string>>;
   room: string;
   setRoom: React.Dispatch<React.SetStateAction<string>>
+  mainBoard: string;
+  setMainBoard: React.Dispatch<React.SetStateAction<string>>,
   ws: WebSocket | undefined
   setWs: React.Dispatch<React.SetStateAction<WebSocket | undefined>>
   connect: () => void
@@ -26,6 +29,7 @@ interface MyProviderProps {
 export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
   const [state, setState] = useState<string>("Initial State");
   const [room, setRoom] = useLocalStorage<string>('server-estimate', JSON.stringify(DEFAULTROOM));
+  const [mainBoard, setMainBoard] = useLocalStorage<string>('server-board', JSON.stringify(DEFAULTBOARD));
   const [ws, setWs] = useState<WebSocket>();
   const HOST_WS: string = process.env.NEXT_PUBLIC_WEB_SOCKET_HOST as string
   function connect() {
@@ -50,6 +54,7 @@ export const MyProvider: React.FC<MyProviderProps> = ({ children }) => {
     <MyContext.Provider value={{
       state, setState,
       room, setRoom,
+      mainBoard, setMainBoard,
       ws, setWs,
       connect
     }}>
