@@ -48,11 +48,6 @@ const Card: React.FC<CardProps> = ({
     colorVariantsText.purple = 'blur-sm select-none ' + colorVariantsText.purple
   }
 
-  useEffect(() => {
-    console.log("content.content", content.Content);
-
-  }, [])
-
   return (
     <div
       className={`${colorVariantsDiv[bgColor]} p-4 rounded-md border shadow-sm flex flex-col w-72`}

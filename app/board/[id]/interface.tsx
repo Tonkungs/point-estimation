@@ -60,6 +60,7 @@ interface IWSBoard {
   userData: {
     ID: string;
     UserName: string;
+    SortType?: ESORTTYPE;
     CardID: string;
     Content: string;
     Type: CARDTYPE;
@@ -111,7 +112,6 @@ interface ColumnProps {
   CardType: CARDTYPE,
   IsEdit: boolean | undefined
   addNewCard: (data: ICard) => void;
-  sort: (sortType: ESORTTYPE) => void;
 }
 
 
@@ -126,6 +126,8 @@ interface CardProps {
   isEdit: boolean
   isPoint: boolean
   CardType?: CARDTYPE// pass from parent components
+  UserId?: string
+  UserIdOwnCard?: string
 }
 
 export type {

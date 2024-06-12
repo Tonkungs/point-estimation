@@ -1,16 +1,12 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import ArrowDownIcon from "../icon/ArrowDownIcon";
-import ArrowUpIcon from "../icon/ArrowUpIcon";
-import ClockIcon from "../icon/ClockIcon";
 import { ColumnProps, ESORTTYPE, ICard } from "../interface";
 import Modal from "./Model";
 import Utils from "@/utils/utils";
 import Card from "./Card";
 
-const Column: React.FC<ColumnProps> = ({ title = "", bgColor, color, children, addNewCard, sort, CardType, IsEdit }) => {
+const Column: React.FC<ColumnProps> = ({ title = "", bgColor, color, children, addNewCard, CardType, IsEdit }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [_, setModalData] = useState('');
-  const [sortType, setSortType] = useState(ESORTTYPE.NONE)
 
   const handleModalSubmit = (value: string) => {
     setModalData(value);
@@ -43,33 +39,6 @@ const Column: React.FC<ColumnProps> = ({ title = "", bgColor, color, children, a
     purple: 'text-purple-600',
   }
 
-  const sortTypeIcon = (type: ESORTTYPE) => {
-    switch (type) {
-      case ESORTTYPE.ASC:
-        return <div onClick={onNextSort}> <ArrowUpIcon color={color} /> </div>
-      case ESORTTYPE.DESC:
-        return <div onClick={onNextSort}><ArrowDownIcon color={color} /></div>
-      default:
-        return <div onClick={onNextSort}><ClockIcon color={color} /></div>
-    }
-  }
-
-  const onNextSort = () => {
-    switch (sortType) {
-      case ESORTTYPE.NONE:
-        setSortType(ESORTTYPE.DESC)
-        sort(ESORTTYPE.DESC)
-        break;
-      case ESORTTYPE.DESC:
-        setSortType(ESORTTYPE.ASC)
-        sort(ESORTTYPE.ASC)
-        break;
-      default:
-        setSortType(ESORTTYPE.NONE)
-        sort(ESORTTYPE.NONE)
-        break;
-    }
-  }
 
   return (
     <div className={`flex flex-col gap-4 w-1/3 ${colorVariantsBG[color]} p-4`}>
@@ -86,9 +55,6 @@ const Column: React.FC<ColumnProps> = ({ title = "", bgColor, color, children, a
         <div className={`${colorVariantsDiv[bgColor]} rounded-full w-4 h-4`}></div>
         <h4 className={`${colorVariantsText[color]} font-medium`} >{title}</h4>
         <span className="text-gray-400">...</span>
-        <div className={`flex-auto flex justify-end cursor-pointer`}>
-          {sortTypeIcon(sortType)}
-        </div>
       </div>
       <div className="flex flex-col gap-4">
         {React.Children.map(children, (child) => {
